@@ -1,0 +1,476 @@
+/* =========================================
+   HEADER
+========================================= */
+
+.how-header {
+  max-width: 680px;
+  margin: 0 auto 20px;
+  text-align: center;
+}
+
+.how-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  margin-bottom: 18px;
+
+  color: #c98600;
+
+  font-size: 12.5px;
+  font-weight: 700;
+
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.how-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #f5b400;
+}
+
+.how-header h2 {
+  margin: 0;
+
+  font-family: "Manrope", sans-serif;
+
+  font-size: 38px;
+  line-height: 1.12;
+
+  letter-spacing: -0.03em;
+
+  color: #15120b;
+}
+
+.how-header p {
+  max-width: 650px;
+
+  margin: 14px auto 0;
+
+  color: #6e6350;
+
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+
+/* =========================================
+   COUNTER
+========================================= */
+
+.how-counter-wrap {
+  display: flex;
+  justify-content: center;
+
+  margin-bottom: 58px;
+}
+
+.how-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 9px 18px 9px 9px;
+
+  background: #ffffff;
+
+  border: 1px solid rgba(21, 18, 11, 0.1);
+
+  border-radius: 999px;
+
+  box-shadow: 0 12px 26px -18px rgba(21, 18, 11, 0.3);
+}
+
+.counter-dot {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #15120b;
+}
+
+.counter-dot span {
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #f5b400;
+
+  animation: counterPulse 1.5s ease-in-out infinite;
+}
+
+.how-counter strong {
+  font-family: "Manrope", sans-serif;
+
+  font-size: 15px;
+
+  color: #15120b;
+}
+
+.how-counter i {
+  font-style: normal;
+
+  color: #6e6350;
+
+  font-size: 12.5px;
+}
+
+@keyframes counterPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.25;
+  }
+}
+
+
+/* =========================================
+   PIPELINE
+========================================= */
+
+/* Horizontal line */
+
+.how-pipeline {
+  position: relative;
+  overflow: visible;
+
+  display: flex;
+  justify-content: space-between;
+
+  max-width: 1000px;
+
+  margin: 0 auto;
+
+  padding: 0 10px;
+}
+
+/* Timeline line */
+.how-pipeline::before {
+  content: "";
+
+  position: absolute;
+
+  top: 34px;
+
+  left: 12.5%;
+  right: 12.5%;
+
+  height: 2px;
+
+  background: rgba(21, 18, 11, 0.12);
+
+  z-index: 1;
+}
+
+.how-stage {
+  position: relative;
+
+  z-index: 2;
+
+  width: 23%;
+
+  text-align: center;
+}
+
+/* connection between steps */
+.how-stage:not(:last-child)::after {
+  content: "";
+
+  position: absolute;
+
+  top: 34px;
+  left: calc(50% + 34px);
+
+  width: calc(100% + 12px);
+
+  height: 2px;
+
+  background: rgba(21, 18, 11, 0.1);
+
+  z-index: -1;
+}
+
+
+/* =========================================
+   MOVING GOLD BALLS
+========================================= */
+
+.how-flow-dot {
+  position: absolute;
+
+  top: 30px;
+
+  width: 9px;
+  height: 9px;
+
+  border-radius: 50%;
+
+  background: #f5b400;
+
+  box-shadow: 0 0 12px rgba(245, 180, 0, 0.6);
+
+  animation: howFlowMove 4.4s linear infinite;
+
+  z-index: 5;
+}
+
+/* =========================================
+   STAGES
+========================================= */
+
+.how-stage {
+  position: relative;
+
+  z-index: 2;
+
+  width: 23%;
+
+  text-align: center;
+}
+
+.how-step {
+  margin-bottom: 8px;
+
+  color: #c98600;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 0.06em;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================
+   ICON
+========================================= */
+
+.how-icon {
+  width: 68px;
+  height: 68px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 0 auto 18px;
+
+  border-radius: 50%;
+
+  background: #15120b;
+
+  border: 3px solid #fffdf6;
+
+  box-shadow:
+    0 8px 20px -8px rgba(21, 18, 11, 0.35),
+    0 0 0 1px rgba(21, 18, 11, 0.1);
+}
+
+.how-icon svg {
+  width: 26px;
+  height: 26px;
+
+  color: #f5b400;
+}
+
+
+/* =========================================
+   TEXT
+========================================= */
+
+.how-stage h3 {
+  margin: 0 0 8px;
+
+  font-family: "Manrope", sans-serif;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  color: #15120b;
+}
+
+.how-stage p {
+  margin: 0;
+
+  color: #6e6350;
+
+  font-size: 13.5px;
+
+  line-height: 1.55;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 860px) {
+
+  .how-section {
+    padding: 75px 0;
+  }
+
+  .how-header h2 {
+    font-size: 32px;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .how-wrap {
+    padding: 0 20px;
+  }
+
+  .how-header h2 {
+    font-size: 28px;
+  }
+
+  .how-header p {
+    font-size: 15px;
+  }
+
+  .how-counter {
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    padding-right: 14px;
+  }
+
+}
+
+/* =========================================
+   HOW IT WORKS - BEE
+========================================= */
+
+.bee-icon {
+  width: 32px;
+  height: 32px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  animation: beeFloat 2s ease-in-out infinite;
+}
+
+.bee-icon svg {
+  width: 32px;
+  height: 32px;
+
+  display: block;
+
+  filter: drop-shadow(0 2px 4px rgba(21, 18, 11, 0.25));
+}
+
+.bee-wing {
+  transform-box: fill-box;
+  transform-origin: center;
+
+  animation: beeFlutter 0.18s ease-in-out infinite alternate;
+}
+
+@keyframes beeFlutter {
+  from {
+    transform: scaleY(1);
+  }
+
+  to {
+    transform: scaleY(0.45);
+  }
+}
+
+@keyframes beeFloat {
+  0% {
+    transform: translateY(0) rotate(-5deg);
+  }
+
+  50% {
+    transform: translateY(-4px) rotate(5deg);
+  }
+
+  100% {
+    transform: translateY(0) rotate(-5deg);
+  }
+}
+
+/* =========================================
+   FLYING BEE
+========================================= */
+
+.how-pipeline .flying-bee {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 34px;
+  height: 34px;
+  z-index: 20;
+  opacity: 1 !important;
+  display: block;
+  pointer-events: none;
+  will-change: transform;
+  animation: beeFlyAcross 5.8s ease-in-out infinite;
+}
+
+.how-pipeline .flying-bee svg {
+  width: 34px;
+  height: 34px;
+  display: block;
+  filter: drop-shadow(0 3px 5px rgba(21, 18, 11, 0.25));
+}
+
+.flying-bee .bee-wing {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: beeFlutter 0.18s ease-in-out infinite alternate;
+}
+
+@keyframes beeFlyAcross {
+  0% {
+    left: calc(11.5% - 17px);
+    transform: translate3d(0, 0, 0) rotate(-8deg);
+    opacity: 1;
+  }
+
+  25% {
+    left: calc(37.2% - 17px);
+    transform: translate3d(0, -12px, 0) rotate(-10deg);
+    opacity: 1;
+  }
+
+  50% {
+    left: calc(62.8% - 17px);
+    transform: translate3d(0, 8px, 0) rotate(8deg);
+    opacity: 1;
+  }
+
+  75% {
+    left: calc(88.5% - 17px);
+    transform: translate3d(0, -10px, 0) rotate(-7deg);
+    opacity: 1;
+  }
+
+  100% {
+    left: calc(88.5% - 17px);
+    transform: translate3d(0, 0, 0) rotate(0deg);
+    opacity: 1;
+  }
+}

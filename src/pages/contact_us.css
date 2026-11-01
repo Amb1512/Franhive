@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
+
+.contact-page {
+	--contact-ink: #171717;
+	--contact-muted: #65645f;
+	--contact-line: #d9d7d0;
+	--contact-yellow: #f6d447;
+	color: var(--contact-ink);
+	background: #f7f6f1;
+	font-family: "DM Sans", sans-serif;
+}
+
+.contact-hero { padding: 100px 24px 92px; background: radial-gradient(circle at 85% 20%, rgba(246, 212, 71, 0.34), transparent 34%), linear-gradient(120deg, #fff4c7 0%, #fffdf6 56%, #ffffff 100%); color: var(--contact-ink); }
+.contact-hero-inner, .contact-container { width: min(1160px, 100%); margin: 0 auto; }
+.contact-hero-inner { max-width: 900px; }
+.contact-eyebrow { display: flex; align-items: center; gap: 10px; color: #9a9890; font-size: 11px; font-weight: 700; letter-spacing: .14em; }
+.contact-hero .contact-eyebrow { color: var(--contact-muted); }
+.contact-eyebrow span { width: 28px; height: 2px; background: var(--contact-yellow); }
+.contact-hero h1, .contact-info h2, .contact-heading h2, .contact-final h2 { margin: 24px 0 0; font-family: "Space Grotesk", sans-serif; line-height: .98; letter-spacing: 0; }
+.contact-hero h1 { max-width: 780px; font-size: clamp(3rem, 7vw, 6.3rem); }
+.contact-hero h1 span { color: #987500; }
+.contact-info h2 span, .contact-heading h2 span, .contact-final h2 span { color: var(--contact-yellow); }
+.contact-hero p { max-width: 590px; margin: 30px 0 0; color: var(--contact-muted); font-size: 17px; line-height: 1.65; }
+.contact-section { padding: 105px 24px; }
+.contact-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 96px; align-items: start; }
+.contact-info h2, .contact-heading h2 { font-size: clamp(2.5rem, 5vw, 4.7rem); }
+.contact-intro { max-width: 440px; margin: 28px 0 0; color: var(--contact-muted); line-height: 1.7; }
+.contact-details { display: grid; gap: 26px; margin-top: 52px; }
+.contact-detail { display: flex; gap: 16px; align-items: flex-start; }
+.contact-icon { display: grid; place-items: center; width: 38px; height: 38px; background: var(--contact-yellow); font-size: 20px; }
+.contact-detail small { display: block; margin-bottom: 5px; color: #8e8b82; font-size: 10px; font-weight: 700; letter-spacing: .14em; }
+.contact-detail a, .contact-detail span { color: var(--contact-ink); font-size: 15px; text-decoration: none; line-height: 1.45; }
+.contact-form-wrapper { padding: 34px; background: #fff; border: 1px solid var(--contact-line); }
+.contact-form-header { display: flex; align-items: center; gap: 18px; margin-bottom: 34px; padding-bottom: 20px; border-bottom: 1px solid var(--contact-line); }
+.contact-form-header > span, .contact-process-card > span { color: #aaa79d; font-size: 12px; font-weight: 700; letter-spacing: .12em; }
+.contact-form-header h3 { margin: 0; font-family: "Space Grotesk", sans-serif; font-size: 22px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.form-group { display: grid; gap: 8px; margin-bottom: 20px; }
+.form-group label { font-size: 12px; font-weight: 700; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; box-sizing: border-box; border: 1px solid #d8d6ce; border-radius: 0; background: #fbfaf7; padding: 13px 14px; color: var(--contact-ink); font: inherit; outline: none; }
+.form-group textarea { resize: vertical; min-height: 130px; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--contact-ink); box-shadow: 3px 3px 0 var(--contact-yellow); }
+.contact-submit, .contact-success button { border: 0; padding: 15px 20px; background: var(--contact-ink); color: #fff; font: 700 13px "DM Sans", sans-serif; cursor: pointer; }
+.contact-submit span, .contact-email-button span { color: var(--contact-yellow); margin-left: 8px; }
+.contact-success { padding: 36px 10px 48px; }
+.contact-success strong { font: 700 28px "Space Grotesk", sans-serif; }
+.contact-success p { color: var(--contact-muted); line-height: 1.6; }
+.contact-success button { margin-top: 12px; background: var(--contact-yellow); color: var(--contact-ink); }
+.contact-process { padding: 100px 24px; background: #ebe9e1; }
+.contact-heading { margin-bottom: 52px; }
+.contact-process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.contact-process-card { padding: 24px 0; border-top: 2px solid var(--contact-ink); }
+.contact-process-card h3 { margin: 28px 0 12px; font: 600 21px "Space Grotesk", sans-serif; }
+.contact-process-card p { margin: 0; color: var(--contact-muted); font-size: 14px; line-height: 1.65; }
+.contact-final { padding: 72px 24px; background: radial-gradient(ellipse at center, rgba(255, 255, 255, .9) 0%, rgba(255, 255, 255, .48) 38%, rgba(255, 255, 255, .08) 76%, transparent 100%), var(--contact-yellow); }
+.contact-final-box { display: flex; align-items: end; justify-content: space-between; gap: 30px; }
+.contact-final .contact-eyebrow { color: #625b29; }
+.contact-final h2 { max-width: 630px; font-size: clamp(2.4rem, 5vw, 4.8rem); }
+.contact-final h2 span { color: #fff; }
+.contact-email-button { display: inline-block; flex: 0 0 auto; padding: 16px 20px; background: linear-gradient(110deg, #211d10 0%, #40340b 70%, #725900 100%); color: #fff; font-size: 13px; font-weight: 700; text-decoration: none; box-shadow: 0 6px 18px rgba(74, 55, 0, .2); transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+.contact-email-button:hover { transform: translateY(-2px); background: linear-gradient(110deg, #2c2613 0%, #51420d 70%, #876a00 100%); box-shadow: 0 10px 24px rgba(74, 55, 0, .3); }
+@media (max-width: 800px) { .contact-grid { grid-template-columns: 1fr; gap: 54px; } .contact-process-grid { grid-template-columns: 1fr 1fr; } .contact-final-box { align-items: flex-start; flex-direction: column; } }
+@media (max-width: 520px) { .contact-hero { padding: 72px 20px; } .contact-section, .contact-process { padding: 72px 20px; } .form-row, .contact-process-grid { grid-template-columns: 1fr; } .contact-form-wrapper { padding: 22px 18px; } .contact-final { padding: 56px 20px; } }

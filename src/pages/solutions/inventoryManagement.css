@@ -1,0 +1,548 @@
+.inventory-page > section {
+  padding: 88px 0;
+}
+
+.inventory-page > .inventory-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 150px 0 92px;
+  background:
+    radial-gradient(circle at 6% 16%, rgba(255, 196, 0, 0.22), transparent 33%),
+    radial-gradient(circle at 92% 18%, rgba(255, 220, 70, 0.19), transparent 31%),
+    linear-gradient(180deg, #fffdf2 0%, #fffefa 70%, #fff 100%);
+}
+
+.inventory-hero::before {
+  position: absolute;
+  top: -250px;
+  left: 46%;
+  width: 580px;
+  height: 580px;
+  border-radius: 50%;
+  background: rgba(255, 196, 0, 0.1);
+  content: "";
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.inventory-hero-inner,
+.inventory-intro-inner,
+.inventory-growing-inner {
+  position: relative;
+  display: grid;
+  align-items: center;
+  gap: clamp(38px, 7vw, 88px);
+}
+
+.inventory-hero-inner {
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+}
+
+.inventory-hero-copy {
+  max-width: 760px;
+}
+
+.inventory-hero-copy h1 {
+  margin-top: 22px;
+  font-size: clamp(42px, 5.4vw, 68px);
+  font-weight: 800;
+  letter-spacing: -3.2px;
+  line-height: 1.08;
+}
+
+.inventory-hero-lead {
+  margin-top: 22px;
+  color: #363636;
+  font-size: clamp(17px, 1.8vw, 20px);
+  line-height: 1.7;
+}
+
+.inventory-hero-summary {
+  margin-top: 14px;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.inventory-hero-summary strong,
+.inventory-growing-inner strong {
+  color: #292929;
+  font-weight: 700;
+}
+
+.inventory-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.inventory-hero-trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin-top: 26px;
+  color: #5d5b53;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.inventory-hero-panel {
+  padding: clamp(26px, 3.5vw, 38px);
+  border: 1px solid rgba(25, 25, 25, 0.08);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 25px 70px rgba(44, 36, 10, 0.11);
+}
+
+.inventory-panel-kicker {
+  color: #8a6800;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.inventory-hero-panel h2 {
+  margin-top: 15px;
+  font-size: clamp(25px, 3vw, 34px);
+  letter-spacing: -1.2px;
+  line-height: 1.2;
+}
+
+.inventory-hero-panel > p {
+  margin-top: 14px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.inventory-panel-points {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.inventory-panel-points span {
+  padding: 12px 13px;
+  border: 1px solid #f0e6c3;
+  border-radius: 12px;
+  background: #fff9df;
+  color: #61552d;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.inventory-panel-note {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+  color: #4d4d4d;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.inventory-page > .inventory-intro {
+  padding: 66px 0;
+  background: #fff;
+}
+
+.inventory-intro-inner,
+.inventory-growing-inner {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.8fr);
+}
+
+.inventory-intro h2,
+.inventory-section-heading h2,
+.inventory-growing-inner h2,
+.inventory-final-box h2 {
+  margin-top: 17px;
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 800;
+  letter-spacing: -1.8px;
+  line-height: 1.16;
+}
+
+.inventory-intro-inner > p,
+.inventory-growing-inner > p {
+  font-size: 16px;
+  line-height: 1.85;
+}
+
+.inventory-page > .inventory-capabilities {
+  padding: 86px 0 96px;
+  background: #fafafa;
+}
+
+.inventory-section-heading {
+  max-width: 760px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+
+.inventory-section-heading > p {
+  max-width: 650px;
+  margin: 16px auto 0;
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.inventory-capability-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.inventory-capability-card {
+  padding: clamp(24px, 3vw, 34px);
+  border: 1px solid #eaeaea;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.035);
+  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.inventory-capability-card:hover {
+  transform: translateY(-4px);
+  border-color: #efdf9e;
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.075);
+}
+
+.inventory-capability-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.inventory-capability-number,
+.inventory-step-card > span:first-child,
+.inventory-benefit-card > span {
+  color: #a07b00;
+  font-family: "Manrope", sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.inventory-capability-mark {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 12px;
+  background: #fff8d6;
+  color: #806100;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.inventory-capability-card h3 {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+  line-height: 1.2;
+}
+
+.inventory-capability-card h4 {
+  margin-top: 11px;
+  color: #504523;
+  font-family: "DM Sans", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.55;
+}
+
+.inventory-capability-card > p {
+  margin-top: 11px;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.inventory-capability-card ul {
+  display: grid;
+  gap: 10px;
+  margin: 21px 0 0;
+  padding: 19px 0 0;
+  border-top: 1px solid #eee;
+  list-style: none;
+}
+
+.inventory-capability-card li {
+  position: relative;
+  padding-left: 25px;
+  color: #565a60;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.inventory-capability-card li::before {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  display: grid;
+  width: 17px;
+  height: 17px;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff5c6;
+  color: #876800;
+  content: "✓";
+  font-size: 10px;
+  font-weight: 900;
+}
+
+.inventory-capability-card .inventory-keywords {
+  margin-top: 19px;
+  padding-top: 14px;
+  border-top: 1px solid #eee;
+  color: #81703b;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.inventory-keywords strong {
+  color: #514622;
+}
+
+.inventory-page > .inventory-intelligence {
+  padding: 88px 0;
+  background: #fffdf4;
+}
+
+.inventory-intelligence-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.inventory-step-card {
+  position: relative;
+  min-height: 185px;
+  padding: 25px;
+  border: 1px solid #f0e6c3;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.inventory-step-card h3 {
+  margin-top: 23px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.6px;
+}
+
+.inventory-step-card p {
+  margin-top: 9px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.inventory-step-arrow {
+  position: absolute;
+  top: 27px;
+  right: 23px;
+  color: #a07b00;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.inventory-page > .inventory-why {
+  padding: 86px 0;
+  background: #fafafa;
+}
+
+.inventory-benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.inventory-benefit-card {
+  min-height: 170px;
+  padding: 25px;
+  border: 1px solid #eaeaea;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.inventory-benefit-card h3 {
+  margin-top: 18px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  line-height: 1.35;
+}
+
+.inventory-benefit-card p {
+  margin-top: 9px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.inventory-page > .inventory-growing {
+  padding: 78px 0;
+  background: #fff;
+}
+
+.inventory-page > .inventory-final-cta {
+  padding: 8px 0 100px;
+  background: #fff;
+}
+
+.inventory-final-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: clamp(30px, 5vw, 58px);
+  border: 1px solid #222;
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 100% 0, rgba(255, 196, 0, 0.2), transparent 38%),
+    linear-gradient(120deg, #101010, #1c1c1c);
+  box-shadow: 0 24px 56px rgba(0, 0, 0, 0.13);
+}
+
+.inventory-final-box h2 {
+  max-width: 740px;
+  margin-top: 18px;
+  color: #fff;
+  font-size: clamp(30px, 4vw, 44px);
+  letter-spacing: -1.8px;
+  line-height: 1.16;
+}
+
+.inventory-final-box > div:first-child > p {
+  max-width: 650px;
+  margin-top: 14px;
+  color: #c2c2c2;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.inventory-final-box > div:first-child > .inventory-final-prompt {
+  color: #fff;
+  font-weight: 700;
+}
+
+.inventory-final-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.inventory-final-actions .btn-yellow {
+  background: var(--yellow);
+  color: var(--black);
+}
+
+.inventory-contact-link {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.inventory-contact-link:hover {
+  color: var(--yellow);
+}
+
+@media (max-width: 1000px) {
+  .inventory-hero-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(270px, 0.8fr);
+    gap: 36px;
+  }
+
+  .inventory-intelligence-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .inventory-benefit-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .inventory-page > section {
+    padding: 64px 0;
+  }
+
+  .inventory-page > .inventory-hero {
+    padding: 118px 0 66px;
+  }
+
+  .inventory-hero-inner,
+  .inventory-intro-inner,
+  .inventory-growing-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .inventory-hero-copy h1 {
+    margin-top: 17px;
+    font-size: clamp(40px, 11vw, 58px);
+    letter-spacing: -2.5px;
+  }
+
+  .inventory-hero-lead {
+    font-size: 17px;
+  }
+
+  .inventory-hero-trust {
+    display: grid;
+    gap: 9px;
+  }
+
+  .inventory-page > .inventory-capabilities,
+  .inventory-page > .inventory-intelligence,
+  .inventory-page > .inventory-why {
+    padding: 68px 0;
+  }
+
+  .inventory-section-heading {
+    margin-bottom: 34px;
+  }
+
+  .inventory-capability-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .inventory-capability-card {
+    padding: 24px;
+  }
+
+  .inventory-intelligence-grid,
+  .inventory-benefit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .inventory-step-card,
+  .inventory-benefit-card {
+    min-height: 0;
+  }
+
+  .inventory-page > .inventory-final-cta {
+    padding: 0 0 72px;
+  }
+
+  .inventory-final-box {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 28px;
+    border-radius: 21px;
+  }
+
+  .inventory-final-actions {
+    width: 100%;
+  }
+
+  .inventory-final-actions .btn {
+    width: 100%;
+  }
+}

@@ -1,4 +1,4 @@
-import "./HowWeWork.css";
+import "./howWeWork.css";
 
 export default function HowWeWork() {
   return (

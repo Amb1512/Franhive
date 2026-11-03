@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Navbar({ onChatOpen }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -21,20 +22,20 @@ function Navbar({ onChatOpen }) {
       <div className="container nav">
 
         {/* LOGO */}
-        <a href="#home" className="brand">
+        <Link to="/" className="brand" onClick={closeMenu}>
           <img
             src="/logo.png"
             alt="FranHive"
             className="brand-logo"
           />
-        </a>
+        </Link>
 
         {/* NAVIGATION */}
         <nav className={`navlinks ${menuOpen ? "open" : ""}`}>
 
-          <a href="#home" onClick={closeMenu}>
+          <Link to="/" onClick={closeMenu}>
             Home
-          </a>
+          </Link>
 
           <div className={`nav-dropdown ${openDropdown === "domain" ? "dropdown-open" : ""}`}>
   <a href="#solutions" className="domain-link" aria-expanded={openDropdown === "domain"} onClick={(event) => toggleDropdown(event, "domain")}>

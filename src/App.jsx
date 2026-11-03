@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter, Routes, Route, useParams } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/navbar";
 import LiveAI from "./components/liveAI";
 import HowWeWork from "./components/howWeWork";
@@ -43,11 +43,20 @@ import FootWear from "./pages/footwear";
 import "./App.css";
 
 function App() {
-  const [chatOpen, setChatOpen] = useState(false);
-  const isHomePage = window.location.pathname === "/";
-
   return (
     <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
+  );
+}
+
+function AppContent() {
+  const [chatOpen, setChatOpen] = useState(false);
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
+  return (
+    <>
       <Navbar onChatOpen={() => setChatOpen(true)} />
 
       {isHomePage && (
@@ -618,7 +627,7 @@ function App() {
     </span>
   </div>
 </footer>
-</BrowserRouter>
+    </>
   );
 }
 

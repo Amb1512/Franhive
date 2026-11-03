@@ -3,6 +3,30 @@ import "./contact_us.css";
 
 export default function ContactUs() {
 	const [submitted, setSubmitted] = useState(false);
+	const [formData, setFormData] = useState({
+		name: "",
+		company: "",
+		email: "",
+		phone: "",
+	});
+
+	const handleTextChange = (event) => {
+		const { name, value } = event.currentTarget;
+		let sanitizedValue = value;
+
+		if (name === "name" || name === "company") {
+			sanitizedValue = value.replace(/[0-9]/g, "").slice(0, 25);
+		}
+
+		if (name === "phone") {
+			sanitizedValue = value.replace(/[^0-9]/g, "");
+		}
+
+		setFormData((current) => ({
+			...current,
+			[name]: sanitizedValue,
+		}));
+	};
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -61,12 +85,12 @@ export default function ContactUs() {
 						) : (
 							<form className="contact-form" onSubmit={handleSubmit}>
 								<div className="form-row">
-									<div className="form-group"><label htmlFor="name">Your Name</label><input required type="text" id="name" name="name" placeholder="Enter your name" /></div>
-									<div className="form-group"><label htmlFor="company">Company</label><input type="text" id="company" name="company" placeholder="Your company name" /></div>
+									<div className="form-group"><label htmlFor="name">Your Name</label><input required type="text" id="name" name="name" placeholder="Enter your name" maxLength={25} pattern="[^\d]*" title="Name cannot contain numbers" value={formData.name} onChange={handleTextChange} /></div>
+									<div className="form-group"><label htmlFor="company">Company</label><input type="text" id="company" name="company" placeholder="Your company name" maxLength={25} pattern="[^\d]*" title="Company name cannot contain numbers" value={formData.company} onChange={handleTextChange} /></div>
 								</div>
 								<div className="form-row">
-									<div className="form-group"><label htmlFor="email">Email Address</label><input required type="email" id="email" name="email" placeholder="you@company.com" /></div>
-									<div className="form-group"><label htmlFor="phone">Phone Number</label><input type="tel" id="phone" name="phone" placeholder="Your phone number" /></div>
+									<div className="form-group"><label htmlFor="email">Email Address</label><input required type="email" id="email" name="email" placeholder="you@company.com" value={formData.email} onChange={handleTextChange} /></div>
+									<div className="form-group"><label htmlFor="phone">Phone Number</label><input type="tel" id="phone" name="phone" placeholder="Your phone number" inputMode="numeric" pattern="[0-9]*" title="Phone number can contain digits only" value={formData.phone} onChange={handleTextChange} /></div>
 								</div>
 								<div className="form-group"><label htmlFor="service">What can we help with?</label><select required id="service" name="service" defaultValue=""><option value="" disabled>Select a solution</option><option value="crm">Customised CRM</option><option value="software">Software Engineering</option><option value="website">Website Development</option><option value="automation">Business Automation</option><option value="digital-growth">Digital Growth</option><option value="training">Training &amp; Support</option><option value="other">Something else</option></select></div>
 								<div className="form-group"><label htmlFor="message">Tell us about your requirement</label><textarea required id="message" name="message" rows="6" placeholder="Tell us about your business, challenge or project..." /></div>

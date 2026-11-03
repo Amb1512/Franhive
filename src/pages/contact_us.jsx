@@ -19,7 +19,7 @@ export default function ContactUs() {
 		}
 
 		if (name === "phone") {
-			sanitizedValue = value.replace(/[^0-9]/g, "");
+			sanitizedValue = value.replace(/[^0-9]/g, "").slice(0, 10);
 		}
 
 		setFormData((current) => ({
@@ -90,7 +90,7 @@ export default function ContactUs() {
 								</div>
 								<div className="form-row">
 									<div className="form-group"><label htmlFor="email">Email Address</label><input required type="email" id="email" name="email" placeholder="you@company.com" value={formData.email} onChange={handleTextChange} /></div>
-									<div className="form-group"><label htmlFor="phone">Phone Number</label><input type="tel" id="phone" name="phone" placeholder="Your phone number" inputMode="numeric" pattern="[0-9]*" title="Phone number can contain digits only" value={formData.phone} onChange={handleTextChange} /></div>
+									<div className="form-group"><label htmlFor="phone">Phone Number</label><input type="tel" id="phone" name="phone" placeholder="Your phone number" inputMode="numeric" maxLength={10} pattern="[0-9]*" title="Phone number can contain up to 10 digits only" value={formData.phone} onChange={handleTextChange} /></div>
 								</div>
 								<div className="form-group"><label htmlFor="service">What can we help with?</label><select required id="service" name="service" defaultValue=""><option value="" disabled>Select a solution</option><option value="crm">Customised CRM</option><option value="software">Software Engineering</option><option value="website">Website Development</option><option value="automation">Business Automation</option><option value="digital-growth">Digital Growth</option><option value="training">Training &amp; Support</option><option value="other">Something else</option></select></div>
 								<div className="form-group"><label htmlFor="message">Tell us about your requirement</label><textarea required id="message" name="message" rows="6" placeholder="Tell us about your business, challenge or project..." /></div>

@@ -364,6 +364,7 @@ function Home() {
               title="Business Coaches"
               text="Manage leads, discovery calls, prospects, programs, client journeys, follow-ups and renewals with a customised CRM."
               tag="Customised CRM →"
+              href="/solutions/franhive-crm"
             />
 
 
@@ -371,6 +372,7 @@ function Home() {
               title="Radiology & Diagnostics"
               text="Connect patient enquiries, appointments, referring doctors, centres and operational workflows with better visibility."
               tag="Customised CRM →"
+              href="/solutions/franhive-crm"
             />
 
 
@@ -829,7 +831,8 @@ function Workflow({
 function Industry({
   title,
   text,
-  tag
+  tag,
+  href
 }) {
 
   return (
@@ -846,9 +849,15 @@ function Industry({
       </p>
 
 
-      <span className="tag">
-        {tag}
-      </span>
+      {href ? (
+        <a className="tag" href={href} aria-label="FranHive CRM">
+          {tag}
+        </a>
+      ) : (
+        <span className="tag">
+          {tag}
+        </span>
+      )}
 
     </div>
 

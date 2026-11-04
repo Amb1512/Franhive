@@ -1075,6 +1075,16 @@ header {
   font-weight: 900;
 }
 
+a.tag {
+  color: #987600;
+  text-decoration: none;
+}
+
+a.tag:hover {
+  color: #15120b;
+  text-decoration: underline;
+}
+
 
 /* =========================================================
    STATS

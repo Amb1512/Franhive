@@ -338,28 +338,30 @@ function AppContent() {
                 title="Business Coaches"
                 text="Manage leads, discovery calls, prospects, programs, client journeys, follow-ups and renewals with an AI-enabled CRM."
                 tag="Customised CRM →"
-                href="/solutions/franhiveCRM"
+                href="/solutions/franhive-crm"
               />
 
               <Industry
                 title="Radiology & Diagnostics"
                 text="Connect patient enquiries, appointments, referring doctors, centres and operational workflows with intelligent visibility."
                 tag="Customised CRM →"
-                href="/solutions/franhiveCRM"
+                href="/solutions/franhive-crm"
               />
 
               <Industry
                 title="Startups & Emerging Businesses"
                 text="Build a scalable CRM, automation and digital technology foundation to manage leads, customers, operations and growth from one platform."
-                tag="Startups & Emerging Businesses →"
-                href="/solutions/inventoryManagement"
+                tag="Inventory Management →"
+                href="/solutions/inventory-management"
+                ariaLabel="Inventory Management"
               />
 
               <Industry
                 title="Growing SMBs"
                 text="Build a practical Customised CRM and automation foundation without stitching together multiple disconnected systems."
-                tag="SMB SOLUTIONS →"
-                href="/solutions/inventoryManagement"
+                tag="Inventory Management →"
+                href="/solutions/inventory-management"
+                ariaLabel="Inventory Management"
               />
 
             </div>
@@ -720,7 +722,7 @@ function Workflow({ icon, title, text }) {
 }
 
 
-function Industry({ title, text, tag, href }) {
+function Industry({ title, text, tag, href, ariaLabel = "Learn more" }) {
   return (
     <div className="industry">
 
@@ -735,7 +737,7 @@ function Industry({ title, text, tag, href }) {
       </p>
 
       {href ? (
-        <a className="tag" href={href} aria-label="FranHive CRM">
+        <a className="tag" href={href} aria-label={ariaLabel}>
           {tag}
         </a>
       ) : (

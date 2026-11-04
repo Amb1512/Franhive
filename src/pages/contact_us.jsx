@@ -6,6 +6,7 @@ export default function ContactUs() {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [submitError, setSubmitError] = useState("");
 	const [captchaToken, setCaptchaToken] = useState("");
+	const [captchaStatus, setCaptchaStatus] = useState("Loading CAPTCHA...");
 	const [formData, setFormData] = useState({
 		name: "",
 		company: "",
@@ -27,18 +28,37 @@ export default function ContactUs() {
 			const container = document.getElementById("contact-recaptcha");
 			if (!window.grecaptcha || !container || container.childElementCount > 0) return;
 
-			window.grecaptcha.render(container, {
-				sitekey: "6LfAKhAuAAAAAAyEvamMm9oFwdpnE-0zxXzlLdvu",
-				callback: (token) => setCaptchaToken(token),
-				"expired-callback": () => setCaptchaToken(""),
-				"error-callback": () => setCaptchaToken(""),
+			window.grecaptcha.ready(() => {
+				try {
+					window.grecaptcha.render(container, {
+						sitekey: "6LfAKhAuAAAAAAyEvamMm9oFwdpnE-0zxXzlLdvu",
+						callback: (token) => {
+							setCaptchaToken(token);
+							setCaptchaStatus("");
+						},
+						"expired-callback": () => setCaptchaToken(""),
+						"error-callback": () => {
+							setCaptchaToken("");
+							setCaptchaStatus("CAPTCHA could not load. Please refresh the page.");
+						},
+					});
+					setCaptchaStatus("");
+				} catch {
+					setCaptchaStatus("CAPTCHA could not load. Please refresh the page.");
+				}
 			});
 		};
 
 		if (window.grecaptcha) renderCaptcha();
 		else script.addEventListener("load", renderCaptcha);
 
-		return () => script?.removeEventListener("load", renderCaptcha);
+		script.addEventListener("error", () => {
+			setCaptchaStatus("CAPTCHA service blocked or unavailable. Please check your connection.");
+		});
+
+		return () => {
+			script?.removeEventListener("load", renderCaptcha);
+		};
 	}, []);
 
 	const handleTextChange = (event) => {
@@ -185,7 +205,10 @@ export default function ContactUs() {
 								</div>
 								<div className="form-group"><label htmlFor="service">What can we help with?</label><select required id="service" name="service" defaultValue=""><option value="" disabled>Select a solution</option><option value="crm">Customised CRM</option><option value="software">Software Engineering</option><option value="website">Website Development</option><option value="automation">Business Automation</option><option value="digital-growth">Digital Growth</option><option value="training">Training &amp; Support</option><option value="other">Something else</option></select></div>
 								<div className="form-group"><label htmlFor="message">Tell us about your requirement</label><textarea required id="message" name="message" rows="6" placeholder="Tell us about your business, challenge or project..." /></div>
-								<div id="contact-recaptcha" aria-label="I'm not a robot CAPTCHA" />
+								<div className="contact-recaptcha-wrapper">
+									<div id="contact-recaptcha" aria-label="I'm not a robot CAPTCHA" />
+									{captchaStatus && <p className="contact-captcha-status" role="status">{captchaStatus}</p>}
+								</div>
 								{submitError && <p className="contact-submit-error" role="alert">{submitError}</p>}
 								<button type="submit" className="contact-submit" disabled={isSubmitting}>
 									{isSubmitting ? "Sending..." : "Send Enquiry"} <span>→</span>

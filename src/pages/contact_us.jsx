@@ -31,7 +31,7 @@ export default function ContactUs() {
 			window.grecaptcha.ready(() => {
 				try {
 					window.grecaptcha.render(container, {
-						sitekey: "6LfAKhAuAAAAAAyEvamMm9oFwdpnE-0zxXzlLdvu",
+						sitekey: "6LfELRAuAAAAAGkePomaPm56NO2MGKnz2f02Ifzg",
 						callback: (token) => {
 							setCaptchaToken(token);
 							setCaptchaStatus("");

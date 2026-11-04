@@ -3,6 +3,8 @@ import "./contact_us.css";
 
 export default function ContactUs() {
 	const [submitted, setSubmitted] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [submitError, setSubmitError] = useState("");
 	const [formData, setFormData] = useState({
 		name: "",
 		company: "",
@@ -28,9 +30,45 @@ export default function ContactUs() {
 		}));
 	};
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		event.preventDefault();
-		setSubmitted(true);
+		setIsSubmitting(true);
+		setSubmitError("");
+
+		const form = event.currentTarget;
+		const data = new FormData(form);
+
+		try {
+			const response = await fetch("https://formsubmit.co/ajax/info@franhive.com", {
+				method: "POST",
+				headers: {
+					"Accept": "application/json",
+				},
+				body: data,
+			});
+
+			if (!response.ok) {
+				throw new Error("The enquiry could not be submitted.");
+			}
+
+			const result = await response.json();
+			if (!result.success) {
+				throw new Error("The enquiry could not be submitted.");
+			}
+
+			setSubmitted(true);
+			setFormData({
+				name: "",
+				company: "",
+				email: "",
+				phone: "",
+			});
+			form.reset();
+		} catch (error) {
+			setSubmitError(error.message || "Please try again or email info@franhive.com directly.");
+		} finally {
+			setIsSubmitting(false);
+		}
 	};
 
 	return (
@@ -84,6 +122,9 @@ export default function ContactUs() {
 							</div>
 						) : (
 							<form className="contact-form" onSubmit={handleSubmit}>
+								<input type="hidden" name="_subject" value="New FranHive website enquiry" />
+								<input type="hidden" name="_captcha" value="false" />
+								<input type="hidden" name="_replyto" value={formData.email} />
 								<div className="form-row">
 									<div className="form-group"><label htmlFor="name">Your Name</label><input required type="text" id="name" name="name" placeholder="Enter your name" maxLength={25} pattern="[^\d]*" title="Name cannot contain numbers" value={formData.name} onChange={handleTextChange} /></div>
 									<div className="form-group"><label htmlFor="company">Company</label><input type="text" id="company" name="company" placeholder="Your company name" maxLength={25} pattern="[^\d]*" title="Company name cannot contain numbers" value={formData.company} onChange={handleTextChange} /></div>
@@ -94,7 +135,10 @@ export default function ContactUs() {
 								</div>
 								<div className="form-group"><label htmlFor="service">What can we help with?</label><select required id="service" name="service" defaultValue=""><option value="" disabled>Select a solution</option><option value="crm">Customised CRM</option><option value="software">Software Engineering</option><option value="website">Website Development</option><option value="automation">Business Automation</option><option value="digital-growth">Digital Growth</option><option value="training">Training &amp; Support</option><option value="other">Something else</option></select></div>
 								<div className="form-group"><label htmlFor="message">Tell us about your requirement</label><textarea required id="message" name="message" rows="6" placeholder="Tell us about your business, challenge or project..." /></div>
-								<button type="submit" className="contact-submit">Send Enquiry <span>→</span></button>
+								{submitError && <p className="contact-submit-error" role="alert">{submitError}</p>}
+								<button type="submit" className="contact-submit" disabled={isSubmitting}>
+									{isSubmitting ? "Sending..." : "Send Enquiry"} <span>→</span>
+								</button>
 							</form>
 						)}
 					</div>

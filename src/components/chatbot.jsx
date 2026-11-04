@@ -101,7 +101,6 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
           onClick={onOpen}
           aria-label="Open FranHive AI chatbot"
         >
-          <span className="chatbot-launcher-icon">FH</span>
           <span className="chatbot-launcher-label">Ask AI</span>
         </button>
       )}

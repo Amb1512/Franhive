@@ -355,7 +355,7 @@
     align-items: center;
     gap: 8px;
 
-    padding: 6px 14px 6px 6px;
+    padding: 0 18px;
     border: 0;
     border-radius: 999px;
 
@@ -364,21 +364,6 @@
 
     box-shadow: 0 12px 30px rgba(21, 18, 11, 0.28);
     cursor: pointer;
-  }
-
-  .chatbot-launcher-icon {
-    width: 42px;
-    height: 42px;
-
-    display: grid;
-    place-items: center;
-
-    border-radius: 50%;
-    background: #f5b400;
-    color: #15120b;
-
-    font-size: 12px;
-    font-weight: 800;
   }
 
   .chatbot-launcher-label {

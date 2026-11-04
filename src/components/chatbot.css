@@ -11,6 +11,10 @@
   pointer-events: none;
 }
 
+.chatbot-launcher {
+  display: none;
+}
+
 
 /* =========================================
    CHAT WINDOW
@@ -339,17 +343,64 @@
 
 @media (max-width: 500px) {
 
+  .chatbot-launcher {
+    position: fixed;
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    z-index: 9998;
+
+    height: 54px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 6px 14px 6px 6px;
+    border: 0;
+    border-radius: 999px;
+
+    background: #15120b;
+    color: #ffffff;
+
+    box-shadow: 0 12px 30px rgba(21, 18, 11, 0.28);
+    cursor: pointer;
+  }
+
+  .chatbot-launcher-icon {
+    width: 42px;
+    height: 42px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+    background: #f5b400;
+    color: #15120b;
+
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .chatbot-launcher-label {
+    font-size: 13px;
+    font-weight: 700;
+  }
+
   .chatbot-window {
     right: 12px;
     left: 12px;
 
-    bottom: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
 
     width: auto;
 
-    height: min(570px, calc(100vh - 24px));
+    height: min(570px, calc(100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)));
 
     border-radius: 18px;
+  }
+
+  .chatbot-input-area input {
+    font-size: 16px;
   }
 
 }

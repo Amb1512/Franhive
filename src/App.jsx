@@ -560,6 +560,7 @@ function AppContent() {
 
       <Chatbot
         isOpen={chatOpen}
+        onOpen={() => setChatOpen(true)}
         onClose={() => setChatOpen(false)}
       />
 

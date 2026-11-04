@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./chatbot.css";
 
-export default function Chatbot({ isOpen, onClose }) {
+export default function Chatbot({ isOpen, onOpen, onClose }) {
   const [message, setMessage] = useState("");
 
   const [messages, setMessages] = useState([
@@ -92,12 +92,24 @@ export default function Chatbot({ isOpen, onClose }) {
     return "I'd be happy to help with FranHive's CRM, software engineering, websites, digital growth or business automation solutions. What are you looking for?";
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="chatbot-overlay">
+    <>
+      {!isOpen && (
+        <button
+          type="button"
+          className="chatbot-launcher"
+          onClick={onOpen}
+          aria-label="Open FranHive AI chatbot"
+        >
+          <span className="chatbot-launcher-icon">FH</span>
+          <span className="chatbot-launcher-label">Ask AI</span>
+        </button>
+      )}
 
-      <div className="chatbot-window">
+      {isOpen && (
+        <div className="chatbot-overlay">
+
+          <div className="chatbot-window">
 
         {/* HEADER */}
         <div className="chatbot-header">
@@ -186,8 +198,10 @@ export default function Chatbot({ isOpen, onClose }) {
 
         </div>
 
-      </div>
+          </div>
 
-    </div>
+        </div>
+      )}
+    </>
   );
 }

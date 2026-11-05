@@ -3,7 +3,7 @@ import "./chatbot.css";
 
 export default function Chatbot({ isOpen, onOpen, onClose }) {
   const [message, setMessage] = useState("");
-  const messagesEndRef = useRef(null);
+  const messagesContainerRef = useRef(null);
   const typingTimerRef = useRef(null);
   const [isTyping, setIsTyping] = useState(false);
   const [leadCapture, setLeadCapture] = useState(null);
@@ -25,8 +25,20 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
   ];
 
   useEffect(() => {
-    messagesEndRef?.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isTyping]);
+    if (!isOpen) return;
+
+    const frame = requestAnimationFrame(() => {
+      const container = messagesContainerRef.current;
+      if (container) {
+        container.scrollTo({
+          top: container.scrollHeight,
+          behavior: "smooth",
+        });
+      }
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [messages, isTyping, isOpen]);
 
   useEffect(() => () => clearTimeout(typingTimerRef.current), []);
 
@@ -346,7 +358,7 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
 
 
         {/* MESSAGES */}
-        <div className="chatbot-messages">
+        <div className="chatbot-messages" ref={messagesContainerRef}>
 
           {messages.map((msg, index) => (
             <div
@@ -391,8 +403,6 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
 
             </div>
           )}
-          <div ref={messagesEndRef} />
-
         </div>
 
 

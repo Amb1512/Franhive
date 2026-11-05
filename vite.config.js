@@ -1,5 +1,5 @@
 import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 import contactHandler from "./api/contact.js";
 
 function readBody(request) {
@@ -64,6 +64,13 @@ function contactApiDevPlugin() {
 }
 
 // https://vite.dev/config/
-export default defineConfig({
-	plugins: [contactApiDevPlugin(), react()],
+export default defineConfig(({ mode }) => {
+	const env = loadEnv(mode, process.cwd(), "");
+	if (env.TURNSTILE_SECRET_KEY) {
+		process.env.TURNSTILE_SECRET_KEY = env.TURNSTILE_SECRET_KEY;
+	}
+
+	return {
+		plugins: [contactApiDevPlugin(), react()],
+	};
 });

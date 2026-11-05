@@ -1,3 +1,28 @@
+async function verifyTurnstile(token) {
+	const secret = process.env.TURNSTILE_SECRET_KEY;
+	if (!secret) {
+		return { ok: false, message: "The security check is not configured yet." };
+	}
+	if (!token) {
+		return { ok: false, message: "Complete the security check before sending." };
+	}
+
+	try {
+		const verification = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ secret, response: token }),
+		});
+		const result = await verification.json();
+		if (!result.success) {
+			return { ok: false, message: "The security check failed. Please try again." };
+		}
+		return { ok: true };
+	} catch {
+		return { ok: false, message: "The security check could not be completed. Please try again." };
+	}
+}
+
 export default async function handler(request, response) {
 	if (request.method !== "POST") {
 		response.setHeader("Allow", "POST");
@@ -13,7 +38,17 @@ export default async function handler(request, response) {
 		message,
 		_subject,
 		_replyto,
+		turnstileToken,
 	} = request.body ?? {};
+
+	const captcha = await verifyTurnstile(turnstileToken);
+	if (!captcha.ok) {
+		return response.status(400).json({
+			success: false,
+			code: "captcha",
+			message: captcha.message,
+		});
+	}
 
 	const formData = new URLSearchParams({
 		name: name || "",

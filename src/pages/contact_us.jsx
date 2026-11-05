@@ -1,16 +1,72 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./contact_us.css";
+
+const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
 
 export default function ContactUs() {
 	const [submitted, setSubmitted] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [submitError, setSubmitError] = useState("");
+	const [turnstileToken, setTurnstileToken] = useState("");
+	const [turnstileError, setTurnstileError] = useState("");
+	const turnstileRef = useRef(null);
+	const widgetIdRef = useRef(null);
 	const [formData, setFormData] = useState({
 		name: "",
 		company: "",
 		email: "",
 		phone: "",
 	});
+
+	useEffect(() => {
+		if (submitted) return undefined;
+		if (!turnstileSiteKey) {
+			setTurnstileError("The security check is not configured yet.");
+			return undefined;
+		}
+
+		let cancelled = false;
+		const renderWidget = () => {
+			if (cancelled || !turnstileRef.current || !window.turnstile) return;
+			if (widgetIdRef.current !== null) window.turnstile.remove(widgetIdRef.current);
+			widgetIdRef.current = window.turnstile.render(turnstileRef.current, {
+				sitekey: turnstileSiteKey,
+				theme: "light",
+				callback: (token) => {
+					setTurnstileToken(token);
+					setTurnstileError("");
+				},
+				"expired-callback": () => setTurnstileToken(""),
+				"error-callback": () => {
+					setTurnstileToken("");
+					setTurnstileError("The security check could not be loaded. Please refresh the page.");
+				},
+			});
+		};
+
+		if (window.turnstile) {
+			renderWidget();
+		} else {
+			let script = document.querySelector("script[data-turnstile]");
+			if (!script) {
+				script = document.createElement("script");
+				script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+				script.async = true;
+				script.dataset.turnstile = "true";
+				document.head.appendChild(script);
+			}
+			script.addEventListener("load", renderWidget);
+		}
+
+		return () => {
+			cancelled = true;
+			if (widgetIdRef.current !== null && window.turnstile) {
+				window.turnstile.remove(widgetIdRef.current);
+				widgetIdRef.current = null;
+			}
+			setTurnstileToken("");
+		};
+	}, [submitted]);
 
 	const handleTextChange = (event) => {
 		const { name, value } = event.currentTarget;
@@ -40,6 +96,10 @@ export default function ContactUs() {
 
 		try {
 			const payload = Object.fromEntries(data.entries());
+			payload.turnstileToken = turnstileToken;
+			if (!turnstileToken) {
+				throw new Error("Complete the security check before sending.");
+			}
 
 			const response = await fetch("/api/contact", {
 				method: "POST",
@@ -52,11 +112,17 @@ export default function ContactUs() {
 
 			if (!response.ok) {
 				let message = "The enquiry could not be submitted.";
+				let code = "";
 				try {
 					const result = await response.json();
 					if (result.message) message = result.message;
+					code = result.code || "";
 				} catch {
 					message = "The form server is unavailable. Please try again or email info@franhive.com.";
+				}
+				if (code === "captcha" && widgetIdRef.current !== null && window.turnstile) {
+					setTurnstileToken("");
+					window.turnstile.reset(widgetIdRef.current);
 				}
 				throw new Error(message);
 			}
@@ -148,8 +214,10 @@ export default function ContactUs() {
 								</div>
 								<div className="form-group"><label htmlFor="service">What can we help with?</label><select required id="service" name="service" defaultValue=""><option value="" disabled>Select a solution</option><option value="crm">Customised CRM</option><option value="software">Software Engineering</option><option value="website">Website Development</option><option value="automation">Business Automation</option><option value="digital-growth">Digital Growth</option><option value="training">Training &amp; Support</option><option value="other">Something else</option></select></div>
 								<div className="form-group"><label htmlFor="message">Tell us about your requirement</label><textarea required id="message" name="message" rows="6" placeholder="Tell us about your business, challenge or project..." /></div>
+								<div className="turnstile-row" ref={turnstileRef} />
+								{turnstileError && <p className="contact-submit-error" role="alert">{turnstileError}</p>}
 								{submitError && <p className="contact-submit-error" role="alert">{submitError}</p>}
-								<button type="submit" className="contact-submit" disabled={isSubmitting}>
+								<button type="submit" className="contact-submit" disabled={isSubmitting || !turnstileToken}>
 									{isSubmitting ? "Sending..." : "Send Enquiry"} <span>→</span>
 								</button>
 							</form>

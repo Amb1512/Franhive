@@ -42,6 +42,7 @@
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--contact-ink); box-shadow: 3px 3px 0 var(--contact-yellow); }
 .contact-submit, .contact-success button { border: 0; padding: 15px 20px; background: var(--contact-ink); color: #fff; font: 700 13px "DM Sans", sans-serif; cursor: pointer; }
 .contact-submit:disabled { cursor: wait; opacity: .65; }
+.turnstile-row { min-height: 65px; margin-bottom: 20px; }
 .contact-submit-error { margin: 0 0 12px; color: #a1261a; font-size: 13px; line-height: 1.4; }
 .contact-submit span, .contact-email-button span { color: var(--contact-yellow); margin-left: 8px; }
 .contact-success { padding: 36px 10px 48px; }

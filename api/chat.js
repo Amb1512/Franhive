@@ -53,7 +53,7 @@ export default async function handler(request, response) {
 		process.env.XAI_MODEL ||
 		process.env.OPENAI_MODEL ||
 		(process.env.GROQ_API_KEY
-			? "llama-3.3-70b-versatile"
+			? "qwen/qwen3.8-27b"
 			: process.env.XAI_API_KEY
 				? "grok-3-mini"
 				: "gpt-4o-mini");

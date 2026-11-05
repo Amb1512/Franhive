@@ -13,7 +13,7 @@ export default async function handler(request, response) {
 		message,
 		_subject,
 		_replyto,
-	} = request.body;
+	} = request.body ?? {};
 
 	const formData = new URLSearchParams({
 		name: name || "",
@@ -26,20 +26,31 @@ export default async function handler(request, response) {
 		_replyto: _replyto || email || "",
 	});
 
-	const delivery = await fetch("https://formsubmit.co/ajax/info@franhive.com", {
-		method: "POST",
-		headers: {
-			Accept: "application/json",
-			"Content-Type": "application/x-www-form-urlencoded",
-		},
-		body: formData,
-	});
+	let delivery;
+	let deliveryResult = {};
 
-	const deliveryResult = await delivery.json();
-	if (!delivery.ok || deliveryResult.success === false) {
+	try {
+		delivery = await fetch("https://form.taxi/s/dxvuqfqw", {
+			method: "POST",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/x-www-form-urlencoded",
+			},
+			body: formData,
+		});
+		deliveryResult = await delivery.json();
+	} catch {
 		return response.status(502).json({
 			success: false,
-			message: "The enquiry could not be submitted. Please try again.",
+			message: "The form server is unavailable. Please try again or email info@franhive.com.",
+		});
+	}
+
+	const accepted = delivery.ok && (deliveryResult.success === true || deliveryResult.success === "true");
+	if (!accepted) {
+		return response.status(502).json({
+			success: false,
+			message: deliveryResult.error_msg || deliveryResult.message || "The enquiry could not be submitted. Please try again.",
 		});
 	}
 

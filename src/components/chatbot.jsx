@@ -170,6 +170,8 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
       query.includes("who are you") ||
       query.includes("what is franhive") ||
       query.includes("what do you do") ||
+      query.includes("what does franhive do") ||
+      query.includes("what does your company do") ||
       query.includes("your services")
     ) {
       return "FranHive provides customised CRM solutions, software engineering, website development, digital growth and business automation for growing organisations.";

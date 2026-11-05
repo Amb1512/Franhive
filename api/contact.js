@@ -15,6 +15,16 @@ export default async function handler(request, response) {
 		_replyto,
 	} = request.body;
 
+	if (!name || String(name).trim().length < 2) {
+		return response.status(400).json({ success: false, message: "Please provide your name." });
+	}
+	if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email))) {
+		return response.status(400).json({ success: false, message: "Please provide a valid email address." });
+	}
+	if (!message || String(message).trim().length < 5) {
+		return response.status(400).json({ success: false, message: "Please describe your requirement." });
+	}
+
 	const formData = new URLSearchParams({
 		name: name || "",
 		company: company || "",

@@ -4,11 +4,15 @@ import "./chatbot.css";
 export default function Chatbot({ isOpen, onOpen, onClose }) {
   const [message, setMessage] = useState("");
   const messagesEndRef = useRef(null);
+  const typingTimerRef = useRef(null);
+  const [isTyping, setIsTyping] = useState(false);
+  const [leadCapture, setLeadCapture] = useState(null);
 
   const [messages, setMessages] = useState([
     {
       type: "bot",
       text: "Hi! 👋 I'm the FranHive Assistant. How can I help you today?",
+      time: "Just now",
     },
   ]);
 
@@ -17,36 +21,144 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
     "Software Engineering",
     "Website Development",
     "Digital Growth",
+    "Request a demo",
   ];
 
   useEffect(() => {
     messagesEndRef?.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [messages, isTyping]);
+
+  useEffect(() => () => clearTimeout(typingTimerRef.current), []);
 
   const sendMessage = (text = message) => {
     const cleanMessage = text.trim();
 
-    if (!cleanMessage) return;
+    if (!cleanMessage || isTyping) return;
 
     const previousUserMessages = messages.filter((item) => item.type === "user");
     const isRepeatedQuestion = previousUserMessages.at(-1)?.text.toLowerCase() === cleanMessage.toLowerCase();
-    const botReply = isRepeatedQuestion
-      ? getFollowUpReply(cleanMessage, previousUserMessages.length)
-      : getBotReply(cleanMessage, previousUserMessages.length);
 
     setMessages((prev) => [
       ...prev,
       {
         type: "user",
         text: cleanMessage,
-      },
-      {
-        type: "bot",
-        text: botReply,
+        time: "Just now",
       },
     ]);
 
     setMessage("");
+    setIsTyping(true);
+
+    clearTimeout(typingTimerRef.current);
+    typingTimerRef.current = setTimeout(async () => {
+      let botReply;
+
+      if (leadCapture && leadCapture.step === "name") {
+        const nextLead = { ...leadCapture, name: cleanMessage, step: "email" };
+        setLeadCapture(nextLead);
+        botReply = "Thanks! What email address should our team use to contact you?";
+      } else if (leadCapture && leadCapture.step === "email") {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanMessage)) {
+          botReply = "Please enter a valid email address, such as name@company.com.";
+        } else {
+          const nextLead = { ...leadCapture, email: cleanMessage, step: "requirement" };
+          setLeadCapture(nextLead);
+          botReply = "Great. What CRM, software, website or automation requirement would you like us to discuss?";
+        }
+      } else if (leadCapture && leadCapture.step === "requirement") {
+        const completedLead = { ...leadCapture, requirement: cleanMessage };
+        let service = "other";
+        const query = cleanMessage.toLowerCase();
+        if (query.includes("crm") || query.includes("lead") || query.includes("sales")) service = "crm";
+        else if (query.includes("website") || query.includes("web")) service = "website";
+        else if (query.includes("automate") || query.includes("workflow")) service = "automation";
+        else if (query.includes("seo") || query.includes("marketing") || query.includes("digital")) service = "digital-growth";
+        else if (query.includes("software") || query.includes("app")) service = "software";
+
+        try {
+          const enquiry = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", Accept: "application/json" },
+            body: JSON.stringify({
+              name: completedLead.name,
+              email: completedLead.email,
+              phone: "",
+              company: "",
+              service,
+              message: cleanMessage,
+              _subject: "New enquiry collected by FranHive AI",
+              _replyto: completedLead.email,
+            }),
+          });
+          const result = await enquiry.json();
+          botReply = result.success
+            ? `Thanks, ${completedLead.name}. Your enquiry has been sent to the FranHive team.`
+            : "I captured your requirement, but the enquiry service is unavailable right now. Please try the Contact Us page.";
+        } catch {
+          botReply = "I could not submit the enquiry right now. Please use the Contact Us page or email info@franhive.com.";
+        }
+        setLeadCapture(null);
+      } else {
+        const wantsDemo = /demo|contact|talk to|speak|quotation|quote|enquir/i.test(cleanMessage);
+        if (wantsDemo) {
+          setLeadCapture({ step: "name", name: "", email: "", requirement: "" });
+          botReply = "I'd be happy to arrange that. What name should I use?";
+        } else {
+          try {
+            const history = [...messages, {
+              type: "user",
+              text: cleanMessage,
+            }].slice(-10).map((item) => ({
+              role: item.type === "bot" ? "assistant" : "user",
+              content: item.text,
+            }));
+
+            const response = await fetch("/api/chat", {
+              method: "POST",
+              headers: { "Content-Type": "application/json", Accept: "application/json" },
+              body: JSON.stringify({ messages: history }),
+            });
+            const result = await response.json();
+            if (response.ok && result.success && result.reply) {
+              botReply = result.reply;
+            } else {
+              botReply = isRepeatedQuestion
+                ? getFollowUpReply(cleanMessage, previousUserMessages.length)
+                : getBotReply(cleanMessage, previousUserMessages.length);
+            }
+          } catch {
+            botReply = isRepeatedQuestion
+              ? getFollowUpReply(cleanMessage, previousUserMessages.length)
+              : getBotReply(cleanMessage, previousUserMessages.length);
+          }
+        }
+      }
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          type: "bot",
+          text: botReply,
+          time: "Just now",
+        },
+      ]);
+      setIsTyping(false);
+    }, 650);
+  };
+
+  const resetConversation = () => {
+    clearTimeout(typingTimerRef.current);
+    setIsTyping(false);
+    setMessage("");
+    setLeadCapture(null);
+    setMessages([
+      {
+        type: "bot",
+        text: "Hi! 👋 I'm the FranHive Assistant. How can I help you today?",
+        time: "Just now",
+      },
+    ]);
   };
 
   const getFollowUpReply = (text, replyIndex) => {
@@ -204,27 +316,38 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
           <div className="chatbot-brand">
 
             <div className="chatbot-logo">
+              <span className="chatbot-logo-spark"></span>
               FH
             </div>
 
             <div>
-              <h3>FranHive Assistant</h3>
+              <h3>FranHive AI</h3>
 
               <span>
                 <i></i>
-                Online
+                Business Assistant
               </span>
             </div>
 
           </div>
 
-          <button
-            className="chatbot-close"
-            onClick={onClose}
-            aria-label="Close chatbot"
-          >
-            ×
-          </button>
+          <div className="chatbot-header-actions">
+            <button
+              className="chatbot-reset"
+              onClick={resetConversation}
+              aria-label="Start a new conversation"
+              title="New conversation"
+            >
+              ↻
+            </button>
+            <button
+              className="chatbot-close"
+              onClick={onClose}
+              aria-label="Close chatbot"
+            >
+              ×
+            </button>
+          </div>
 
         </div>
 
@@ -235,16 +358,35 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
           {messages.map((msg, index) => (
             <div
               key={index}
-              className={`chat-message ${msg.type}`}
+              className={`chat-message-row ${msg.type}`}
             >
-              {msg.text}
+              {msg.type === "bot" && (
+                <div className="chatbot-avatar" aria-hidden="true">FH</div>
+              )}
+              <div className="chat-message-content">
+                <div className={`chat-message ${msg.type}`}>
+                  {msg.text}
+                </div>
+                <span className="chat-message-time">{msg.time}</span>
+              </div>
             </div>
           ))}
+
+          {isTyping && (
+            <div className="chat-message-row bot">
+              <div className="chatbot-avatar" aria-hidden="true">FH</div>
+              <div className="chat-typing" aria-label="FranHive AI is typing">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          )}
 
           {/* QUICK OPTIONS */}
           {messages.length === 1 && (
             <div className="chatbot-suggestions">
-
+              <span className="chatbot-suggestions-label">What can I help with?</span>
               {suggestions.map((suggestion) => (
                 <button
                   key={suggestion}
@@ -263,26 +405,31 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
 
         {/* INPUT */}
         <div className="chatbot-input-area">
-
-          <input
-            type="text"
+          <div className="chatbot-composer">
+          <textarea
             placeholder="Ask about FranHive..."
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter") {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
                 sendMessage();
               }
             }}
+            rows={1}
+            disabled={isTyping}
           />
 
           <button
             className="chatbot-send"
             onClick={() => sendMessage()}
             aria-label="Send message"
+            disabled={!message.trim() || isTyping}
           >
             →
           </button>
+          </div>
+          <span className="chatbot-powered">Powered by FranHive AI</span>
 
         </div>
 

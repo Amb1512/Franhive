@@ -113,7 +113,7 @@ export default function ContactUs() {
 						<div className="contact-details">
 							<div className="contact-detail">
 								<div className="contact-icon">✉</div>
-								<div><small>EMAIL</small><a href="mailto:info@franhive.com">info@franhive.com</a></div>
+								<div><small>EMAIL</small><a href="mailto:gargamber03@gmail.com">gargamber03@gmail.com</a></div>
 							</div>
 							<div className="contact-detail">
 								<div className="contact-icon">◎</div>

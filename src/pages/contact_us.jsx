@@ -1,65 +1,16 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./contact_us.css";
 
 export default function ContactUs() {
 	const [submitted, setSubmitted] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [submitError, setSubmitError] = useState("");
-	const [captchaToken, setCaptchaToken] = useState("");
-	const [captchaStatus, setCaptchaStatus] = useState("Loading CAPTCHA...");
 	const [formData, setFormData] = useState({
 		name: "",
 		company: "",
 		email: "",
 		phone: "",
 	});
-
-	useEffect(() => {
-		let script = document.querySelector('script[src="https://www.google.com/recaptcha/api.js"]');
-		if (!script) {
-			script = document.createElement("script");
-			script.src = "https://www.google.com/recaptcha/api.js";
-			script.async = true;
-			script.defer = true;
-			document.head.appendChild(script);
-		}
-
-		const renderCaptcha = () => {
-			const container = document.getElementById("contact-recaptcha");
-			if (!window.grecaptcha || !container || container.childElementCount > 0) return;
-
-			window.grecaptcha.ready(() => {
-				try {
-					window.grecaptcha.render(container, {
-						sitekey: "6LfELRAuAAAAAGkePomaPm56NO2MGKnz2f02Ifzg",
-						callback: (token) => {
-							setCaptchaToken(token);
-							setCaptchaStatus("");
-						},
-						"expired-callback": () => setCaptchaToken(""),
-						"error-callback": () => {
-							setCaptchaToken("");
-							setCaptchaStatus("CAPTCHA could not load. Please refresh the page.");
-						},
-					});
-					setCaptchaStatus("");
-				} catch {
-					setCaptchaStatus("CAPTCHA could not load. Please refresh the page.");
-				}
-			});
-		};
-
-		if (window.grecaptcha) renderCaptcha();
-		else script.addEventListener("load", renderCaptcha);
-
-		script.addEventListener("error", () => {
-			setCaptchaStatus("CAPTCHA service blocked or unavailable. Please check your connection.");
-		});
-
-		return () => {
-			script?.removeEventListener("load", renderCaptcha);
-		};
-	}, []);
 
 	const handleTextChange = (event) => {
 		const { name, value } = event.currentTarget;
@@ -86,15 +37,9 @@ export default function ContactUs() {
 
 		const form = event.currentTarget;
 		const data = new FormData(form);
-		if (!captchaToken) {
-			setSubmitError("Please complete the CAPTCHA before sending your enquiry.");
-			setIsSubmitting(false);
-			return;
-		}
 
 		try {
 			const payload = Object.fromEntries(data.entries());
-			payload.captchaToken = captchaToken;
 
 			const response = await fetch("/api/contact", {
 				method: "POST",
@@ -129,8 +74,6 @@ export default function ContactUs() {
 				phone: "",
 			});
 			form.reset();
-			setCaptchaToken("");
-			window.grecaptcha?.reset();
 		} catch (error) {
 			if (error instanceof TypeError) {
 				setSubmitError("The form server is unavailable. Please try again or email info@franhive.com directly.");
@@ -205,10 +148,6 @@ export default function ContactUs() {
 								</div>
 								<div className="form-group"><label htmlFor="service">What can we help with?</label><select required id="service" name="service" defaultValue=""><option value="" disabled>Select a solution</option><option value="crm">Customised CRM</option><option value="software">Software Engineering</option><option value="website">Website Development</option><option value="automation">Business Automation</option><option value="digital-growth">Digital Growth</option><option value="training">Training &amp; Support</option><option value="other">Something else</option></select></div>
 								<div className="form-group"><label htmlFor="message">Tell us about your requirement</label><textarea required id="message" name="message" rows="6" placeholder="Tell us about your business, challenge or project..." /></div>
-								<div className="contact-recaptcha-wrapper">
-									<div id="contact-recaptcha" aria-label="I'm not a robot CAPTCHA" />
-									{captchaStatus && <p className="contact-captcha-status" role="status">{captchaStatus}</p>}
-								</div>
 								{submitError && <p className="contact-submit-error" role="alert">{submitError}</p>}
 								<button type="submit" className="contact-submit" disabled={isSubmitting}>
 									{isSubmitting ? "Sending..." : "Send Enquiry"} <span>→</span>

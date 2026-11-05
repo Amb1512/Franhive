@@ -34,7 +34,7 @@ export default async function handler(request, response) {
 	if (!apiKey) {
 		return response.status(503).json({
 			success: false,
-			message: "AI provider is not configured. Set GROQ_API_KEY and optionally GROQ_MODEL and GROQ_BASE_URL.",
+			message: "AI provider is not configured. Set GROQ_API_KEY in the server environment and redeploy.",
 		});
 	}
 
@@ -62,7 +62,7 @@ export default async function handler(request, response) {
 		const delivery = await fetch(`${baseUrl}/chat/completions`, {
 			method: "POST",
 			headers: {
-				Authorization: `Bearer ${apiKey}`,
+				"Authorization": "Bearer " + apiKey,
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({
@@ -74,7 +74,7 @@ export default async function handler(request, response) {
 						content: `You are FranHive's business assistant for its website visitors. Answer accurately and concisely using this verified website information: ${SITE_KNOWLEDGE} Do not invent services, prices, timelines, integrations, certifications or customer claims. Ask one useful clarifying question when details are missing. For demonstrations, enquiries or estimates, offer to collect the visitor's name, email, phone and requirement. Never request passwords, payment details or sensitive personal information.`,
 					},
 					...safeMessages,
-				],
+			],
 			}),
 		});
 
@@ -82,7 +82,7 @@ export default async function handler(request, response) {
 		if (!delivery.ok) {
 			return response.status(502).json({
 				success: false,
-				message: "The AI service is temporarily unavailable.",
+				message: result.error?.message || "The AI service is temporarily unavailable.",
 			});
 		}
 

@@ -35,9 +35,6 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
 
     if (!cleanMessage || isTyping) return;
 
-    const previousUserMessages = messages.filter((item) => item.type === "user");
-    const isRepeatedQuestion = previousUserMessages.at(-1)?.text.toLowerCase() === cleanMessage.toLowerCase();
-
     setMessages((prev) => [
       ...prev,
       {
@@ -119,18 +116,14 @@ export default function Chatbot({ isOpen, onOpen, onClose }) {
               headers: { "Content-Type": "application/json", Accept: "application/json" },
               body: JSON.stringify({ messages: history }),
             });
-            const result = await response.json();
+            const result = await response.json().catch(() => ({}));
             if (response.ok && result.success && result.reply) {
               botReply = result.reply;
             } else {
-              botReply = isRepeatedQuestion
-                ? getFollowUpReply(cleanMessage, previousUserMessages.length)
-                : getBotReply(cleanMessage, previousUserMessages.length);
+              botReply = result.message || "The AI service is unavailable. Configure a Groq API key in the server environment and redeploy.";
             }
           } catch {
-            botReply = isRepeatedQuestion
-              ? getFollowUpReply(cleanMessage, previousUserMessages.length)
-              : getBotReply(cleanMessage, previousUserMessages.length);
+            botReply = "The AI service could not be reached. On local development, run the app with Vercel functions, and make sure GROQ_API_KEY is configured.";
           }
         }
       }

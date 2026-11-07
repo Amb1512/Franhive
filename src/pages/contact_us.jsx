@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./contact_us.css";
 
-const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY;
+const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
 
 export default function ContactUs() {
 	const [submitted, setSubmitted] = useState(false);

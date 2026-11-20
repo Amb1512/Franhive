@@ -6,6 +6,8 @@ import HowWeWork from "./components/howWeWork";
 import Chatbot from "./components/chatbot";
 import FranHiveSoftware from "./pages/solutions/franhiveSoftware";
 import FranHiveCRM from "./pages/solutions/franhiveCRM";
+import Startups from "./pages/solutions/startups";
+import GrowingSMBs from "./pages/solutions/growingSMBs";
 import FranHiveTraining from "./pages/solutions/franhiveTraining";
 import InventoryManagement from "./pages/solutions/inventoryManagement";
 import WebsiteDesigning from "./pages/solutions/websiteDesigning";
@@ -351,17 +353,17 @@ function AppContent() {
               <Industry
                 title="Startups & Emerging Businesses"
                 text="Build a scalable CRM, automation and digital technology foundation to manage leads, customers, operations and growth from one platform."
-                tag="Inventory Management →"
-                href="/solutions/inventory-management"
-                ariaLabel="Inventory Management"
+                tag="Explore startup solutions →"
+                href="/solutions/startups"
+                ariaLabel="Explore startup solutions"
               />
 
               <Industry
                 title="Growing SMBs"
                 text="Build a practical Customised CRM and automation foundation without stitching together multiple disconnected systems."
-                tag="Inventory Management →"
-                href="/solutions/inventory-management"
-                ariaLabel="Inventory Management"
+                tag="Discover SMB solutions →"
+                href="/solutions/growing-smbs"
+                ariaLabel="Discover SMB solutions"
               />
 
             </div>
@@ -510,6 +512,16 @@ function AppContent() {
   />
 
   <Route
+    path="/solutions/startups"
+    element={<Startups />}
+  />
+
+  <Route
+    path="/solutions/growing-smbs"
+    element={<GrowingSMBs />}
+  />
+
+  <Route
     path="/solutions/franhive-training"
     element={<FranHiveTraining />}
   />
@@ -576,6 +588,8 @@ function AppContent() {
       <a href="/solutions/franhive-software">FranHive Software</a>
       <a href="/solutions/franhive-crm">FranHive Customisable CRM</a>
       <a href="/solutions/franhive-training">FranHive Training</a>
+      <a href="/solutions/startups">Startups & Emerging Businesses</a>
+      <a href="/solutions/growing-smbs">Growing SMBs</a>
       <a href="/solutions/inventory-management">Inventory Management</a>
       <a href="/solutions/online-training">Online Training</a>
     </div>

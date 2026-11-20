@@ -166,6 +166,14 @@ function Navbar({ onChatOpen }) {
         FranHive CRM
       </a>
 
+      <a href="/solutions/startups" onClick={closeMenu}>
+        Startups & Emerging Businesses
+      </a>
+
+      <a href="/solutions/growing-smbs" onClick={closeMenu}>
+        Growing SMBs
+      </a>
+
       <a href="/solutions/inventory-management" onClick={closeMenu}>
         Inventory Management
       </a>

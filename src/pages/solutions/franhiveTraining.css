@@ -351,8 +351,9 @@
   border: 1px solid #222;
   border-radius: 26px;
   background:
-    radial-gradient(circle at 100% 0, rgba(255, 196, 0, 0.2), transparent 38%),
-    linear-gradient(120deg, #101010, #1c1c1c);
+    radial-gradient(ellipse at 88% 0%, rgba(255, 196, 0, 0.32), transparent 36%),
+    radial-gradient(ellipse at 8% 100%, rgba(255, 140, 0, 0.18), transparent 42%),
+    linear-gradient(115deg, #090909 0%, #17130a 48%, #2c2100 100%);
   box-shadow: 0 24px 56px rgba(0, 0, 0, 0.13);
 }
 

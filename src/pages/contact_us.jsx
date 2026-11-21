@@ -28,6 +28,9 @@ export default function ContactUs() {
 					headers: { Accept: "application/json" },
 				});
 				const result = await response.json();
+				if (!response.ok) {
+					throw new Error(result.message || "The security check could not be loaded.");
+				}
 				const siteKey = result.siteKey || "";
 				if (!cancelled) {
 					setTurnstileSiteKey(siteKey);
@@ -60,20 +63,25 @@ export default function ContactUs() {
 		let cancelled = false;
 		const renderWidget = () => {
 			if (cancelled || !turnstileRef.current || !window.turnstile) return;
-			if (widgetIdRef.current !== null) window.turnstile.remove(widgetIdRef.current);
-			widgetIdRef.current = window.turnstile.render(turnstileRef.current, {
-				sitekey: turnstileSiteKey,
-				theme: "light",
-				callback: (token) => {
-					setTurnstileToken(token);
-					setTurnstileError("");
-				},
-				"expired-callback": () => setTurnstileToken(""),
-				"error-callback": () => {
-					setTurnstileToken("");
-					setTurnstileError("The security check could not be loaded. Please refresh the page.");
-				},
-			});
+			try {
+				if (widgetIdRef.current !== null) window.turnstile.remove(widgetIdRef.current);
+				widgetIdRef.current = window.turnstile.render(turnstileRef.current, {
+					sitekey: turnstileSiteKey,
+					theme: "light",
+					callback: (token) => {
+						setTurnstileToken(token);
+						setTurnstileError("");
+					},
+					"expired-callback": () => setTurnstileToken(""),
+					"error-callback": () => {
+						setTurnstileToken("");
+						setTurnstileError("The security check could not be loaded. Please refresh the page.");
+					},
+				});
+			} catch {
+				setTurnstileToken("");
+				setTurnstileError("The security check could not be loaded. Please refresh the page.");
+			}
 		};
 
 		if (window.turnstile) {
@@ -87,7 +95,17 @@ export default function ContactUs() {
 				script.dataset.turnstile = "true";
 				document.head.appendChild(script);
 			}
-			script.addEventListener("load", renderWidget);
+			script.addEventListener("load", renderWidget, { once: true });
+			script.addEventListener(
+				"error",
+				() => {
+					if (!cancelled) {
+						setTurnstileToken("");
+						setTurnstileError("Cloudflare security check is blocked or unavailable. Check your connection and ad blocker.");
+					}
+				},
+				{ once: true },
+			);
 		}
 
 		return () => {

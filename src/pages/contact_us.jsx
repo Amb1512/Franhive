@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import "./contact_us.css";
 
-const turnstileSiteKey = import.meta.env.TURNSTILE_SITE_KEY;
-
 export default function ContactUs() {
 	const [submitted, setSubmitted] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [submitError, setSubmitError] = useState("");
 	const [turnstileToken, setTurnstileToken] = useState("");
 	const [turnstileError, setTurnstileError] = useState("");
+	const [turnstileSiteKey, setTurnstileSiteKey] = useState("");
 	const turnstileRef = useRef(null);
 	const widgetIdRef = useRef(null);
 	const [formData, setFormData] = useState({
@@ -20,10 +19,43 @@ export default function ContactUs() {
 
 	useEffect(() => {
 		if (submitted) return undefined;
-		if (!turnstileSiteKey) {
-			setTurnstileError("The security check is not configured yet.");
-			return undefined;
-		}
+
+		let cancelled = false;
+
+		const loadSiteKey = async () => {
+			try {
+				const response = await fetch("/api/turnstile-config", {
+					headers: { Accept: "application/json" },
+				});
+				const result = await response.json();
+				const siteKey = result.siteKey || "";
+				if (!cancelled) {
+					setTurnstileSiteKey(siteKey);
+					if (!siteKey) {
+						setTurnstileError(
+							result.message ||
+								"The security check is not configured yet. Add TURNSTILE_SITE_KEY in Vercel and redeploy.",
+						);
+					} else {
+						setTurnstileError("");
+					}
+				}
+			} catch {
+				if (!cancelled) {
+					setTurnstileSiteKey("");
+					setTurnstileError("The security check could not be loaded. Please refresh the page.");
+				}
+			}
+		};
+
+		loadSiteKey();
+		return () => {
+			cancelled = true;
+		};
+	}, [submitted]);
+
+	useEffect(() => {
+		if (submitted || !turnstileSiteKey) return undefined;
 
 		let cancelled = false;
 		const renderWidget = () => {
@@ -66,7 +98,7 @@ export default function ContactUs() {
 			}
 			setTurnstileToken("");
 		};
-	}, [submitted]);
+	}, [submitted, turnstileSiteKey]);
 
 	const handleTextChange = (event) => {
 		const { name, value } = event.currentTarget;

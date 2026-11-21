@@ -2,6 +2,7 @@ import react from "@vitejs/plugin-react";
 import { defineConfig, loadEnv } from "vite";
 import contactHandler from "./api/contact.js";
 import chatHandler from "./api/chat.js";
+import turnstileConfigHandler from "./api/turnstile-config.js";
 
 function readBody(request) {
 	return new Promise((resolve, reject) => {
@@ -35,7 +36,15 @@ function contactApiDevPlugin() {
 		configureServer(server) {
 			server.middlewares.use(async (request, response, next) => {
 				const url = request.url?.split("?")[0];
-				if (!["/api/contact", "/api/chat"].includes(url)) {
+				const handler =
+					url === "/api/turnstile-config"
+						? turnstileConfigHandler
+						: url === "/api/contact"
+							? contactHandler
+							: url === "/api/chat"
+								? chatHandler
+								: null;
+				if (!handler) {
 					next();
 					return;
 				}
@@ -45,7 +54,6 @@ function contactApiDevPlugin() {
 					request.body = rawBody.length
 						? JSON.parse(rawBody.toString("utf8"))
 						: {};
-					const handler = url === "/api/contact" ? contactHandler : chatHandler;
 					await handler(request, createVercelResponse(response));
 				} catch {
 					if (!response.headersSent) {
@@ -54,9 +62,12 @@ function contactApiDevPlugin() {
 						response.end(
 							JSON.stringify({
 								success: false,
-								message: url === "/api/contact"
-									? "The form server is unavailable. Please try again or email info@franhive.com."
-									: "The AI service could not be reached.",
+								message:
+									url === "/api/contact"
+										? "The form server is unavailable. Please try again or email info@franhive.com."
+										: url === "/api/chat"
+											? "The AI service could not be reached."
+											: "The request could not be completed.",
 							}),
 						);
 					}
@@ -74,6 +85,8 @@ export default defineConfig(({ mode }) => {
 		"GROQ_BASE_URL",
 		"GROQ_MODEL",
 		"TURNSTILE_SECRET_KEY",
+		"TURNSTILE_SITE_KEY",
+		"VITE_TURNSTILE_SITE_KEY",
 	];
 
 	for (const name of serverEnvironmentVariables) {

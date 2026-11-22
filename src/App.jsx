@@ -8,6 +8,7 @@ import FranHiveSoftware from "./pages/solutions/franhiveSoftware";
 import FranHiveCRM from "./pages/solutions/franhiveCRM";
 import Startups from "./pages/solutions/startups";
 import GrowingSMBs from "./pages/solutions/growingSMBs";
+import BusinessCoaches from "./pages/solutions/businessCoaches";
 import FranHiveTraining from "./pages/solutions/franhiveTraining";
 import InventoryManagement from "./pages/solutions/inventoryManagement";
 import WebsiteDesigning from "./pages/solutions/websiteDesigning";
@@ -519,6 +520,11 @@ function AppContent() {
   <Route
     path="/solutions/growing-smbs"
     element={<GrowingSMBs />}
+  />
+
+  <Route
+    path="/solutions/business-coaches"
+    element={<BusinessCoaches />}
   />
 
   <Route

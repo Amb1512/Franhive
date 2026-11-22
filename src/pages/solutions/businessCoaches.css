@@ -1,0 +1,93 @@
+.business-coaches-page > section { padding: 88px 0; }
+
+.business-coaches-page > .coaches-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 150px 0 92px;
+  background: radial-gradient(circle at 8% 14%, rgba(255,196,0,.23), transparent 32%), radial-gradient(circle at 92% 18%, rgba(255,220,70,.18), transparent 30%), linear-gradient(180deg,#fffdf2 0%,#fffefa 70%,#fff 100%);
+}
+
+.coaches-hero-inner,
+.coaches-intro-inner,
+.coaches-benefits-layout {
+  position: relative;
+  display: grid;
+  align-items: center;
+  gap: clamp(38px,7vw,88px);
+}
+
+.coaches-hero-inner { grid-template-columns: minmax(0,1.25fr) minmax(300px,.75fr); }
+.coaches-hero-copy { max-width: 760px; }
+.coaches-hero-copy h1 { margin-top: 22px; font-size: clamp(42px,5.4vw,68px); font-weight: 800; letter-spacing:-3.2px; line-height:1.08; }
+.coaches-hero-lead { margin-top:22px; color:#363636; font-size:clamp(17px,1.8vw,20px); line-height:1.7; }
+.coaches-hero-actions { display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:26px; }
+.coaches-hero-trust { display:flex; flex-wrap:wrap; gap:10px 20px; margin-top:26px; color:#5d5b53; font-size:12px; font-weight:700; }
+
+.coaches-hero-panel {
+  padding:clamp(26px,3.5vw,38px);
+  border:1px solid rgba(25,25,25,.08);
+  border-radius:26px;
+  background:rgba(255,255,255,.92);
+  box-shadow:0 25px 70px rgba(44,36,10,.11);
+}
+.coaches-panel-kicker { color:#8a6800; font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; }
+.coaches-hero-panel h2 { margin-top:15px; font-size:clamp(25px,3vw,34px); letter-spacing:-1.2px; line-height:1.2; }
+.coaches-hero-panel > p { margin-top:14px; font-size:14px; line-height:1.8; }
+.coaches-panel-points { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:24px; }
+.coaches-panel-points span { padding:12px 13px; border:1px solid #f0e6c3; border-radius:12px; background:#fff9df; color:#61552d; font-size:12px; font-weight:700; }
+
+.business-coaches-page > .coaches-intro { padding:66px 0; background:#fff; }
+.coaches-intro-inner { grid-template-columns:minmax(0,1fr) minmax(300px,.8fr); }
+.coaches-intro h2,.coaches-section-heading h2,.coaches-benefits h2 { margin-top:17px; font-size:clamp(30px,4vw,46px); font-weight:800; letter-spacing:-1.8px; line-height:1.16; }
+.coaches-intro-inner > p { font-size:16px; line-height:1.85; }
+
+.business-coaches-page > .coaches-challenges { background:#fafafa; }
+.coaches-section-heading { max-width:760px; margin:0 auto 44px; text-align:center; }
+.coaches-section-heading > p { max-width:640px; margin:16px auto 0; font-size:16px; line-height:1.75; }
+.coaches-challenge-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+.coaches-challenge-card { min-height:180px; padding:25px; border:1px solid #eaeaea; border-radius:18px; background:#fff; box-shadow:0 12px 36px rgba(0,0,0,.035); }
+.coaches-challenge-card > span,.coaches-solution-top > span:first-child { color:#a07b00; font-size:13px; font-weight:800; letter-spacing:1px; }
+.coaches-challenge-card h3 { margin-top:20px; font-size:19px; font-weight:800; letter-spacing:-.5px; line-height:1.3; }
+.coaches-challenge-card p { margin-top:9px; font-size:13px; line-height:1.7; }
+
+.business-coaches-page > .coaches-solutions { background:#fff; }
+.coaches-solution-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px; align-items:stretch; }
+.coaches-solution-card { padding:clamp(24px,3vw,34px); border:1px solid #eaeaea; border-radius:22px; background:#fff; box-shadow:0 12px 36px rgba(0,0,0,.035); transition:.22s ease; }
+.coaches-solution-card:hover { transform:translateY(-4px); border-color:#efdf9e; box-shadow:0 20px 42px rgba(0,0,0,.075); }
+.coaches-solution-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; }
+.coaches-solution-mark { display:grid; width:38px; height:38px; place-items:center; border-radius:12px; background:#fff4c7; color:#75601d; font-size:16px; }
+.coaches-solution-card h3 { font-size:21px; font-weight:800; letter-spacing:-.6px; }
+.coaches-solution-card > p { margin-top:10px; color:#4a4a4a; font-size:14px; line-height:1.75; }
+.coaches-solution-card ul { display:grid; gap:8px; margin:18px 0 0; padding:18px 0 0; border-top:1px solid #eee; list-style:none; }
+.coaches-solution-card li { position:relative; padding-left:18px; color:#5a5a5a; font-size:13px; line-height:1.55; }
+.coaches-solution-card li::before { position:absolute; left:0; color:#b08a12; content:"✓"; font-weight:800; }
+
+.business-coaches-page > .coaches-benefits { background:#171713; color:#fff; }
+.coaches-benefits-layout { grid-template-columns:minmax(280px,.8fr) minmax(400px,1.2fr); }
+.coaches-benefits .section-label { color:#f6ce35; }
+.coaches-benefit-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.coaches-benefit-grid div { min-height:130px; padding:22px; border:1px solid rgba(255,255,255,.11); border-radius:16px; background:rgba(255,255,255,.04); }
+.coaches-benefit-grid strong { display:block; font-size:17px; }
+.coaches-benefit-grid span { display:block; margin-top:8px; color:#c9c9c1; font-size:13px; line-height:1.65; }
+
+.business-coaches-page > .coaches-final-cta { background:#fffdf4; }
+.coaches-final-box { display:flex; align-items:center; justify-content:space-between; gap:30px; padding:clamp(32px,5vw,56px); border:1px solid #eee2aa; border-radius:24px; background:linear-gradient(135deg,#fff 0%,#fff8d7 100%); box-shadow:0 20px 60px rgba(74,60,14,.08); }
+.coaches-final-box h2 { max-width:760px; margin-top:14px; font-size:clamp(30px,4vw,48px); letter-spacing:-2px; line-height:1.12; }
+.coaches-final-box p { max-width:700px; margin-top:14px; line-height:1.75; }
+.coaches-final-box .btn { flex:none; }
+
+@media (max-width:900px) {
+  .coaches-hero-inner,.coaches-intro-inner,.coaches-benefits-layout { grid-template-columns:1fr; }
+  .coaches-hero-inner { gap:34px; }
+  .coaches-challenge-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .coaches-final-box { align-items:flex-start; flex-direction:column; }
+}
+
+@media (max-width:620px) {
+  .business-coaches-page > section { padding:64px 0; }
+  .business-coaches-page > .coaches-hero { padding:120px 0 68px; }
+  .coaches-hero-copy h1 { letter-spacing:-2px; }
+  .coaches-hero-actions { align-items:stretch; flex-direction:column; }
+  .coaches-hero-actions .btn { justify-content:center; width:100%; }
+  .coaches-challenge-grid,.coaches-solution-grid,.coaches-benefit-grid { grid-template-columns:1fr; }
+}

@@ -174,6 +174,10 @@ function Navbar({ onChatOpen }) {
         Growing SMBs
       </a>
 
+      <a href="/solutions/business-coaches" onClick={closeMenu}>
+        Business Coaches
+      </a>
+
       <a href="/solutions/inventory-management" onClick={closeMenu}>
         Inventory Management
       </a>

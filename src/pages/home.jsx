@@ -364,7 +364,7 @@ function Home() {
               title="Business Coaches"
               text="Manage leads, discovery calls, prospects, programs, client journeys, follow-ups and renewals with a customised CRM."
               tag="Customised CRM →"
-              href="/solutions/franhive-crm"
+              href="/solutions/business-coaches"
             />
 
 

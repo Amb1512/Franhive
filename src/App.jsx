@@ -341,7 +341,7 @@ function AppContent() {
                 title="Business Coaches"
                 text="Manage leads, discovery calls, prospects, programs, client journeys, follow-ups and renewals with an AI-enabled CRM."
                 tag="Business Coach →"
-                href="/solutions/businessCoaches"
+                href="/solutions/business-coaches"
               />
 
               <Industry

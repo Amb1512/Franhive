@@ -1,5 +1,27 @@
-async function verifyTurnstile(token) {
-	const secret = process.env.TURNSTILE_SECRET_KEY;
+function turnstileSecret() {
+	return String(process.env.TURNSTILE_SECRET_KEY || "")
+		.trim()
+		.replace(/^["']|["']$/g, "");
+}
+
+function turnstileFailureMessage(errorCodes = []) {
+	if (errorCodes.includes("invalid-input-secret")) {
+		return "The security check secret key is invalid. Update TURNSTILE_SECRET_KEY in Vercel to match this site key, then redeploy.";
+	}
+	if (errorCodes.includes("timeout-or-duplicate")) {
+		return "The security check expired or was already used. Please complete it again.";
+	}
+	if (errorCodes.includes("invalid-input-response")) {
+		return "The security check token was invalid. Please complete the check again.";
+	}
+	if (errorCodes.includes("bad-request")) {
+		return "The security check request was rejected. Please refresh and try again.";
+	}
+	return "The security check failed. Please try again.";
+}
+
+async function verifyTurnstile(token, remoteIp) {
+	const secret = turnstileSecret();
 	if (!secret) {
 		return { ok: false, message: "The security check is not configured yet." };
 	}
@@ -8,14 +30,24 @@ async function verifyTurnstile(token) {
 	}
 
 	try {
+		const body = new URLSearchParams({
+			secret,
+			response: String(token),
+		});
+		if (remoteIp) body.set("remoteip", remoteIp);
+
 		const verification = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
 			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ secret, response: token }),
+			headers: { "Content-Type": "application/x-www-form-urlencoded" },
+			body,
 		});
 		const result = await verification.json();
 		if (!result.success) {
-			return { ok: false, message: "The security check failed. Please try again." };
+			return {
+				ok: false,
+				message: turnstileFailureMessage(result["error-codes"] || []),
+				errorCodes: result["error-codes"] || [],
+			};
 		}
 		return { ok: true };
 	} catch {
@@ -69,12 +101,22 @@ export default async function handler(request, response) {
 		turnstileToken,
 	} = request.body ?? {};
 
-	const captcha = await verifyTurnstile(turnstileToken);
+	const token =
+		turnstileToken ||
+		request.body?.["cf-turnstile-response"] ||
+		"";
+	const remoteIp =
+		request.headers["x-forwarded-for"]?.split(",")[0]?.trim() ||
+		request.headers["x-real-ip"] ||
+		"";
+
+	const captcha = await verifyTurnstile(token, remoteIp);
 	if (!captcha.ok) {
 		return response.status(400).json({
 			success: false,
 			code: "captcha",
 			message: captcha.message,
+			errorCodes: captcha.errorCodes || [],
 		});
 	}
 
@@ -99,11 +141,19 @@ export default async function handler(request, response) {
 		_replyto: _replyto || email || "",
 	});
 
+	const formTaxiEndpoint =
+		String(process.env.FORM_TAXI_ENDPOINT || "").trim() ||
+		"https://form.taxi/s/nxb21i4o";
+
 	let delivery;
 	let deliveryResult = {};
 
 	try {
+<<<<<<< HEAD
 		delivery = await fetch(endpoint, {
+=======
+		delivery = await fetch(formTaxiEndpoint, {
+>>>>>>> 4d38f9d7288d78ee241ca717c77284a56341cffd
 			method: "POST",
 			headers: {
 				Accept: "application/json",

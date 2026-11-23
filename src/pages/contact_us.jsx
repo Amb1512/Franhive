@@ -128,8 +128,9 @@ export default function ContactUs() {
 
 		try {
 			const payload = Object.fromEntries(data.entries());
-			payload.turnstileToken = turnstileToken;
-			if (!turnstileToken) {
+			payload.turnstileToken =
+				turnstileToken || payload["cf-turnstile-response"] || "";
+			if (!payload.turnstileToken) {
 				throw new Error("Complete the security check before sending.");
 			}
 

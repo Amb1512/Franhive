@@ -87,6 +87,7 @@ export default defineConfig(({ mode }) => {
 		"TURNSTILE_SECRET_KEY",
 		"TURNSTILE_SITE_KEY",
 		"VITE_TURNSTILE_SITE_KEY",
+		"FORM_TAXI_ENDPOINT",
 	];
 
 	for (const name of serverEnvironmentVariables) {

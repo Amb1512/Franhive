@@ -113,11 +113,15 @@ export default async function handler(request, response) {
 		_replyto: _replyto || email || "",
 	});
 
+	const formTaxiEndpoint =
+		String(process.env.FORM_TAXI_ENDPOINT || "").trim() ||
+		"https://form.taxi/s/nxb21i4o";
+
 	let delivery;
 	let deliveryResult = {};
 
 	try {
-		delivery = await fetch("https://form.taxi/s/dxvuqfqw", {
+		delivery = await fetch(formTaxiEndpoint, {
 			method: "POST",
 			headers: {
 				Accept: "application/json",

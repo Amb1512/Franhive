@@ -141,19 +141,11 @@ export default async function handler(request, response) {
 		_replyto: _replyto || email || "",
 	});
 
-	const formTaxiEndpoint =
-		String(process.env.FORM_TAXI_ENDPOINT || "").trim() ||
-		"https://form.taxi/s/nxb21i4o";
-
 	let delivery;
 	let deliveryResult = {};
 
 	try {
-<<<<<<< HEAD
 		delivery = await fetch(endpoint, {
-=======
-		delivery = await fetch(formTaxiEndpoint, {
->>>>>>> 4d38f9d7288d78ee241ca717c77284a56341cffd
 			method: "POST",
 			headers: {
 				Accept: "application/json",

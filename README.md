@@ -25,6 +25,14 @@ All visitors use the same server-side key. If a visitor receives `AI provider is
 configured`, the key is missing from the deployed environment rather than unavailable
 for some users.
 
+## Contact form setup
+
+The contact form delivers enquiries through Form.taxi. Register a form there and copy
+its endpoint URL (in the `https://form.taxi/s/...` format) into the server-side
+`FORM_TAXI_ENDPOINT` environment variable. For local development, add it to `.env`;
+for Vercel, add it under **Settings > Environment Variables** and redeploy. Do not use
+the Form.taxi dashboard URL in place of the form endpoint.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:

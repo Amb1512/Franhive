@@ -342,6 +342,8 @@ function AppContent() {
                 text="Manage leads, discovery calls, prospects, programs, client journeys, follow-ups and renewals with an AI-enabled CRM."
                 tag="Business Coach →"
                 href="/solutions/business-coaches"
+                fullCardLink
+                ariaLabel="Explore Business Coach solutions"
               />
 
               <Industry
@@ -743,31 +745,35 @@ function Workflow({ icon, title, text }) {
 }
 
 
-function Industry({ title, text, tag, href, ariaLabel = "Learn more" }) {
-  return (
-    <div className="industry">
-
+function Industry({
+  title,
+  text,
+  tag,
+  href,
+  ariaLabel = "Learn more",
+  fullCardLink = false,
+}) {
+  const content = (
+    <>
       <BeeMark className="industry-bee" />
-
-      <h3>
-        {title}
-      </h3>
-
-      <p>
-        {text}
-      </p>
-
-      {href ? (
+      <h3>{title}</h3>
+      <p>{text}</p>
+      {href && !fullCardLink ? (
         <a className="tag" href={href} aria-label={ariaLabel}>
           {tag}
         </a>
       ) : (
-        <span className="tag">
-          {tag}
-        </span>
+        <span className="tag">{tag}</span>
       )}
+    </>
+  );
 
-    </div>
+  return fullCardLink && href ? (
+    <a className="industry industry-link" href={href} aria-label={ariaLabel}>
+      {content}
+    </a>
+  ) : (
+    <div className="industry">{content}</div>
   );
 }
 

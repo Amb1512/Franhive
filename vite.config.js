@@ -84,6 +84,7 @@ export default defineConfig(({ mode }) => {
 		"GROQ_API_KEY",
 		"GROQ_BASE_URL",
 		"GROQ_MODEL",
+		"FORM_TAXI_ENDPOINT",
 		"TURNSTILE_SECRET_KEY",
 		"TURNSTILE_SITE_KEY",
 		"VITE_TURNSTILE_SITE_KEY",

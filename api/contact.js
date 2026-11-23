@@ -29,6 +29,34 @@ export default async function handler(request, response) {
 		return response.status(405).json({ success: false, message: "Method not allowed." });
 	}
 
+	const formTaxiEndpoint = process.env.FORM_TAXI_ENDPOINT;
+	if (!formTaxiEndpoint) {
+		return response.status(503).json({
+			success: false,
+			code: "configuration",
+			message: "Contact form delivery is not configured. Register a form at Form.taxi and set FORM_TAXI_ENDPOINT.",
+		});
+	}
+
+	let endpoint;
+	try {
+		endpoint = new URL(formTaxiEndpoint);
+	} catch {
+		endpoint = null;
+	}
+	if (
+		!endpoint ||
+		endpoint.protocol !== "https:" ||
+		endpoint.hostname !== "form.taxi" ||
+		!/^\/s\/[^/]+\/?$/.test(endpoint.pathname)
+	) {
+		return response.status(500).json({
+			success: false,
+			code: "configuration",
+			message: "FORM_TAXI_ENDPOINT must be the HTTPS endpoint URL for a registered Form.taxi form.",
+		});
+	}
+
 	const {
 		name,
 		company,
@@ -75,7 +103,7 @@ export default async function handler(request, response) {
 	let deliveryResult = {};
 
 	try {
-		delivery = await fetch("https://form.taxi/s/dxvuqfqw", {
+		delivery = await fetch(endpoint, {
 			method: "POST",
 			headers: {
 				Accept: "application/json",
